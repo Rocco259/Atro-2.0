@@ -2,6 +2,7 @@ var astronaut, astronaut_bathing, astronaut_drinking, astronaut_working_out, ast
 var astronaut_eating, astronaut_drinking;
 var backgroundImg;
 var invisibleWall1, invisibleWall2, invisibleWall3, invisibleWall4;
+var edges;
 
 function preload(){
   
@@ -26,30 +27,6 @@ astronaut.addAnimation("sleeping", astronaut_sleeping);
 astronaut.scale = 0.1;
 astronaut.velocityX = 0;
 astronaut.velocityY = 0;
-
-//Left Wall
-invisibleWall1 = createSprite(0,0,5,400);
-invisibleWall1.depth = backgroundImg.depth;
-invisibleWall1.depth = invisibleWall1.depth + 1;
-invisibleWall1.visible = false;
-
-//Right Wall
-invisibleWall2 = createSprite(400,0,5,400);
-invisibleWall2.depth = backgroundImg.depth;
-invisibleWall2.depth + 2;
-invisibleWall2.visible = false;
-
-//Top Wall
-invisibleWall3 = createSprite(0,0,400,5);
-invisibleWall3.depth = backgroundImg.depth;
-invisibleWall3.depth + 1;
-invisibleWall3.visible = false;
-
-//Bottom Wall
-invisibleWall4 = createSprite(0,400,400,5);
-invisibleWall4.depth = backgroundImg.depth;
-invisibleWall4.depth + 1;
-invisibleWall4.visible = false;
 }
 
 function draw() {
@@ -63,27 +40,10 @@ function draw() {
   text("Right Arrow Key = Bathing", 10, 100);
   text("Space Key = Moving", 10, 115);
 
-  if(astronaut.x === 400){
-    astronaut.velocityX = -1;
-    astronaut.velocityY = 1;
-  }
-
-  if(astronaut.x === 0){
-    astronaut.velocityX = 1;
-    astronaut.velocityY = -1
-  }
-
-  if(astronaut.y === 0){
-    astronaut.velocityY = -1;
-    astronaut.velocityX = 1;
-  }
-   
-  if(astronaut.y === 400){
-    astronaut.velocityY = 1;
-    astronaut.velocityX = -1;
-  }
-
-   keyMovement();
+edges = createEdgeSprites();
+  astronaut.bounceOff(edges);
+  
+  keyMovement();
 
   drawSprites();
 }
